@@ -126,6 +126,10 @@ export default {
 @import './../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 @import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+.page-head {
+  background-color: #f8f9fa;
+}
+
 .fixed-top,
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav,
 .sb-nav-fixed .sb-topnav {
