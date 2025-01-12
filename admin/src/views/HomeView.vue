@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from "vue-router";
 
 export default {
-  name: 'DashboardView',
+  name: 'HomeView',
 
   setup() {
 
