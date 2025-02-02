@@ -1,34 +1,58 @@
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import MessageContainer from '@/components/Base/MessageContainer.vue'
 
 export default {
   name: 'App',
+  components: {
+    MessageContainer,
+  },
+
+  computed: {
+    isLoading() {
+      return this.$mainStore.isLoading()
+    },
+  },
+
+  methods: {
+    oncloseMessage(message) {
+      this.$mainStore.removeMessage(message.id)
+    },
+  },
 }
 </script>
 
 <template>
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="/">Dev-Portal</a>
+    <a class="navbar-brand ps-3" href="/">Portal</a>
+
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-lg order-1 order-lg-0 me-4 me-lg-0" href="#!">
       <i class="bi bi-list"></i>
     </button>
+
     <!-- Navbar Search-->
-    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-      <div class="input-group">
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Search for..."
-          aria-label="Search for..."
-          aria-describedby="btnNavbarSearch"
-        />
-        <button class="btn btn-primary" id="btnNavbarSearch" type="button">
-          <i class="bi bi-search"></i>
-        </button>
-      </div>
-    </form>
+      <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search for..."
+            aria-label="Search for..."
+            aria-describedby="btnNavbarSearch"
+          />
+          <button class="btn btn-primary" id="btnNavbarSearch" type="button">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
+    <message-container
+      @close-message="oncloseMessage"
+      :messages="this.$mainStore.messages"
+      :sticky-messages="this.$mainStore.stickyMessages"
+    />
+
   </nav>
   <div id="layoutSidenav">
     <!-- Navbar left side -->
@@ -36,21 +60,26 @@ export default {
       <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
           <div class="nav">
-            <router-link :to="{ name: 'home' }" class="nav-link">
+            <router-link :to="{ name: 'Home' }" class="nav-link">
               <div class="sb-nav-link-icon">
                 <i class="bi bi-house-door"></i>
               </div>
               Home
             </router-link>
-            <router-link :to="{ name: 'links' }" class="nav-link">
+
+            <router-link :to="{ name: 'Categories' }" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="bi bi-diagram-3-fill"></i>
+              </div>
+              Categories
+            </router-link>
+
+            <router-link :to="{ name: 'Links' }" class="nav-link">
               <div class="sb-nav-link-icon">
                 <i class="bi bi-link-45deg"></i>
               </div>
               Links
             </router-link>
-            <!--                        <template v-for="navItem in navigationData" :key="navItem.id">-->
-            <!--&lt;!&ndash;                            <navigation-category v-if="navItem.type === 'navigation-category'" :navigation-item="navItem"/>&ndash;&gt;-->
-            <!--                        </template>-->
           </div>
         </div>
         <div class="sb-sidenav-footer">
@@ -66,25 +95,22 @@ export default {
         </div>
       </nav>
     </div>
+
     <!-- Main content -->
     <div id="layoutSidenav_content">
       <main>
-        <div class="content-container container-fluid px-4 mt-4">
+        <div class="content-container container">
           <RouterView />
         </div>
       </main>
+
       <!-- Footer -->
       <footer class="py-4 bg-light mt-auto">
         <div class="container-fluid px-4">
           <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">
-              Dev-Portal
+              Portal
               <i class="bi bi-arrow-through-heart-fill"></i>
-            </div>
-            <div>
-              <!--                <a href="#">Privacy Policy</a>-->
-              <!--                &middot;-->
-              <!--                <a href="#">Terms &amp; Conditions</a>-->
             </div>
           </div>
         </div>
@@ -92,42 +118,37 @@ export default {
     </div>
   </div>
 
-  <!--    <div class="loading d-flex justify-content-center" v-if="isLoading">-->
-  <!--        <div class="spinner spinner-border text-light align-content-center" role="status">-->
-  <!--            <span class="sr-only visually-hidden">Loading...</span>-->
-  <!--        </div>-->
-  <!--    </div>-->
-
-  <!--    <div class="modal fade" :class="isModalOpen" tabindex="-1">-->
-  <!--        <div class="modal-dialog">-->
-  <!--            <div class="modal-content">-->
-  <!--                <div class="modal-header">-->
-  <!--                    <h5 class="modal-title">{{ modalConfig?.title }}</h5>-->
-  <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"-->
-  <!--                            @click="modalClose('CANCEL')">-->
-  <!--                    </button>-->
-  <!--                </div>-->
-  <!--                <div class="modal-body">-->
-  <!--                    <p>{{ modalConfig?.message }}</p>-->
-  <!--                </div>-->
-  <!--                <div class="modal-footer">-->
-  <!--                    <button v-if="isModalButtonInConfig('OK')" type="button" class="btn btn-primary" @click="modalClose('OK')">Ok</button>-->
-  <!--                    <button v-if="isModalButtonInConfig('CANCEL')" type="button" class="btn btn-secondary" @click="modalClose('CANCEL')">Cancel</button>-->
-  <!--                    <button v-if="isModalButtonInConfig('CLOSE')" type="button" class="btn btn-secondary" @click="modalClose('CLOSE')">Close</button>-->
-  <!--                    <button v-if="isModalButtonInConfig('DELETE')" type="button" class="btn btn-primary" @click="modalClose('DELETE')">Delete</button>-->
-  <!--                    <button v-if="isModalButtonInConfig('SAVE')" type="button" class="btn btn-primary" @click="modalClose('SAVE')">Save</button>-->
-  <!--                </div>-->
-  <!--            </div>-->
-  <!--        </div>-->
-  <!--    </div>-->
+  <div v-if="isLoading" class="loading d-flex justify-content-center">
+    <div class="spinner spinner-border text-light align-content-center" role="status">
+      <span class="sr-only visually-hidden">Loading...</span>
+    </div>
+  </div>
 </template>
 
 <style>
 @import './../node_modules/bootstrap-icons/font/bootstrap-icons.css';
-@import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-.page-head {
-  background-color: #f8f9fa;
+@import './assets/bootstrap.min.css';
+
+.content-container {
+  position: absolute;
+  left: 0;
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  .spinner {
+    position: absolute;
+    top: 50%;
+    width: 3rem;
+    height: 3rem;
+  }
 }
 
 .fixed-top,

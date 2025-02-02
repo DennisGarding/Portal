@@ -1,32 +1,42 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LinkView from '@/views/LinkView.vue'
-import LinkCreate from '@/views/Link/LinkCreate.vue'
-import LinkCategoryCreate from '@/views/Link/LinkCategoryCreate.vue'
+import CategoryView from '@/views/CategoryView.vue'
+import CategoryForm from '@/views/Category/CategoryForm.vue'
+import LinkForm from '@/views/Link/LinkForm.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: HomeView,
     },
+
+    // CATEGORY
     {
-      path: '/links',
-      name: 'links',
+      path: '/category',
+      name: 'Categories',
+      component: CategoryView,
+    },
+    {
+      path: '/category/form/:id?',
+      name: 'CategoryForm',
+      component: CategoryForm,
+    },
+
+    // LINK
+    {
+      path: '/link',
+      name: 'Links',
       component: LinkView,
     },
     {
-      path: '/links/create',
-      name: 'LinkCreate',
-      component: LinkCreate,
+      path: '/link/form/:id?',
+      name: 'LinkForm',
+      component: LinkForm,
     },
-    {
-      path: '/links/category/create',
-      name: 'LinkCategoryCreate',
-      component: LinkCategoryCreate,
-    }
   ],
 })
 
