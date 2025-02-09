@@ -28,10 +28,14 @@ export default {
     loadCategories() {
       this.$categoryRepository.loadCategories()
         .then((response) => {
+          // TODO: REMOVE AFTER DEBUG
+          console.log(response);
+          // TODO: REMOVE AFTER DEBUG
           this.linkCategories = response
         })
         .catch((error) => {
-          this.$mainStore.addStickyMessage(new Message('Error', `Failed to load link categories`, error))
+          console.log(error)
+          this.$mainStore.addStickyMessage(new Message('Error', `Failed to load categories`, error))
         })
     },
 

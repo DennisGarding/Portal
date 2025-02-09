@@ -15,7 +15,7 @@ export default class LinkRepository {
       .then((response) => {
         this.mainStore.unsetLoading()
 
-        return response.data
+        return this.__createLink(response.data)
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -41,7 +41,7 @@ export default class LinkRepository {
       .then((response) => {
         this.mainStore.unsetLoading()
 
-        return response.data
+        return this.__createLink(response.data)
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -58,7 +58,7 @@ export default class LinkRepository {
       .then((response) => {
         this.mainStore.unsetLoading()
 
-        return response.data
+        return this.__createLink(response.data)
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -72,15 +72,17 @@ export default class LinkRepository {
 
     return this.client
       .delete(`/call/link/delete/${linkId}`)
-      .then((response) => {
+      .then(() => {
         this.mainStore.unsetLoading()
-
-        return response.data
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
 
         return Promise.reject(error.response.data)
       })
+  }
+
+  __createLink(linkData) {
+    return new Link(linkData.id, linkData.categoryId, linkData.name, linkData.url)
   }
 }

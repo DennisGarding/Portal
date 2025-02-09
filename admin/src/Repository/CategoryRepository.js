@@ -1,5 +1,7 @@
 import axios from 'axios'
 import Category from '@/Class/Models/Category.js'
+import Link from '@/Class/Models/Link.js'
+import Snippet from '@/Class/Models/Snippet.js'
 
 export default class CategoryRepository {
   constructor(mainStore) {
@@ -13,9 +15,11 @@ export default class CategoryRepository {
     return this.client
       .get(`/call/category/load/${id}`)
       .then((response) => {
+        const category = this.__createCategory(response.data)
+
         this.mainStore.unsetLoading()
 
-        return response.data
+        return category
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -30,9 +34,16 @@ export default class CategoryRepository {
     return this.client
       .get('/call/category/load')
       .then((response) => {
+        const categoryArray = []
+
+        response.data.forEach((categoryData) => {
+          console.log(categoryData)
+          categoryArray.push(this.__createCategory(categoryData))
+        })
+
         this.mainStore.unsetLoading()
 
-        return response.data
+        return categoryArray
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -47,9 +58,15 @@ export default class CategoryRepository {
     return this.client
       .get(`/call/category/load/by/${type}`)
       .then((response) => {
+        const categoryArray = []
+
+        response.data.forEach((categoryData) => {
+          categoryArray.push(this.__createCategory(categoryData, type))
+        })
+
         this.mainStore.unsetLoading()
 
-        return response.data
+        return categoryArray
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -75,7 +92,7 @@ export default class CategoryRepository {
       .then((response) => {
         this.mainStore.unsetLoading()
 
-        return response.data
+        return this.__createCategory(response.data)
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -89,15 +106,40 @@ export default class CategoryRepository {
 
     return this.client
       .delete(`/call/category/delete/${categoryId}`)
-      .then((response) => {
+      .then(() => {
         this.mainStore.unsetLoading()
-
-        return response.data
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
 
         return Promise.reject(error.response.data.error)
       })
+  }
+
+  __createCategory(categoryData, type = '') {
+    const category = new Category(categoryData.id, categoryData.name, categoryData.type)
+
+    if (type === 'link') {
+      categoryData.links.forEach((link) => {
+        category.addLink(new Link(link.id, link.categoryId, link.name, link.url))
+      })
+    }
+
+    if (type === 'snippet') {
+      categoryData.snippets.forEach((snippet) => {
+        category.addSnippet(
+          new Snippet(
+            snippet.id,
+            snippet.name,
+            snippet.description,
+            snippet.code,
+            snippet.type,
+            snippet.categoryId,
+          ),
+        )
+      })
+    }
+
+    return category
   }
 }
