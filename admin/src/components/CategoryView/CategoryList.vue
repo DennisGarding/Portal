@@ -12,12 +12,15 @@ export default {
     categories: {
       type: Array,
       required: true,
+      default: () => {
+        return []
+      },
     },
   },
 
   data() {
     return {
-      categoryTypes: this.$mainStore.categoryTypes
+      categoryTypes: this.$mainStore.categoryTypes,
     }
   },
 

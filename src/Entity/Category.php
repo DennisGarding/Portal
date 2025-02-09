@@ -27,9 +27,16 @@ class Category implements \JsonSerializable
     #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'category')]
     private Collection $links;
 
+    /**
+     * @var Collection<int, Snippet>
+     */
+    #[ORM\OneToMany(targetEntity: Snippet::class, mappedBy: 'category')]
+    private Collection $snippets;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
+        $this->snippets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,6 +98,36 @@ class Category implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return Collection<int, Snippet>
+     */
+    public function getSnippets(): Collection
+    {
+        return $this->snippets;
+    }
+
+    public function addSnippet(Snippet $snippet): static
+    {
+        if (!$this->snippets->contains($snippet)) {
+            $this->snippets->add($snippet);
+            $snippet->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSnippet(Snippet $snippet): static
+    {
+        if ($this->snippets->removeElement($snippet)) {
+            // set the owning side to null (unless already changed)
+            if ($snippet->getCategory() === $this) {
+                $snippet->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -98,6 +135,7 @@ class Category implements \JsonSerializable
             'name' => $this->name,
             'type' => $this->type,
             'links' => \array_map(function ($link) {return $link->jsonSerialize();}, $this->links->toArray()),
+            'snippets' => \array_map(function ($snippet) {return $snippet->jsonSerialize();}, $this->snippets->toArray()),
         ];
     }
 }

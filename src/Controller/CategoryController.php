@@ -53,7 +53,7 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/call/category/{method}', name: 'call_category_create_update', methods: ['POST'])]
-    public function create(string $method, Request $request): JsonResponse
+    public function save(string $method, Request $request): JsonResponse
     {
         $categoryData = json_decode($request->getContent(), true);
         $validation = $this->categoryValidator->validate($categoryData, $method);

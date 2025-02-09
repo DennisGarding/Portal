@@ -8,12 +8,6 @@ export default {
     CategoryItem,
   },
 
-  created() {
-    // TODO: REMOVE AFTER DEBUG
-    console.log('type', this.categoryType);
-    // TODO: REMOVE AFTER DEBUG
-  },
-
   props: {
     categoryType: {
       type: CategoryType,
@@ -28,9 +22,6 @@ export default {
 
   methods: {
     onCategoryDelete(category) {
-      // TODO: REMOVE AFTER DEBUG
-      console.log('type', category);
-      // TODO: REMOVE AFTER DEBUG
       this.$emit('delete-category', category)
     }
   }

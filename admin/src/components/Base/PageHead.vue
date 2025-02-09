@@ -13,7 +13,7 @@ export default {
 
 <template>
   <div class="page-head">
-    <h1 class="mt-2 me-4">{{ title }}</h1>
+    <h3 class="mt-2 me-4">{{ title }}</h3>
     <slot></slot>
   </div>
 </template>

@@ -55,18 +55,6 @@ export default {
       return true
     },
   },
-
-  // watch: {
-  //   category: {
-  //     handler(){
-  //       // TODO: REMOVE AFTER DEBUG
-  //       console.log('watch cat', this.category);
-  //       // TODO: REMOVE AFTER DEBUG
-  //     },
-  //     deep: true,
-  //     immediate: true,
-  //   },
-  // },
 }
 </script>
 

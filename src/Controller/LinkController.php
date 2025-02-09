@@ -20,7 +20,7 @@ class LinkController extends AbstractController
         private readonly LinkRepository $linkRepository
     ) {}
 
-    #[Route('/call/link/load/{linkId}', name: 'api_link_load', methods: ['GET'])]
+    #[Route('/call/link/load/{linkId}', name: 'call_link_load', methods: ['GET'])]
     public function loadLink(string $linkId): JsonResponse
     {
         $link = $this->linkRepository->find($linkId);
@@ -34,7 +34,7 @@ class LinkController extends AbstractController
         return $this->json($link);
     }
 
-    #[Route('/call/link/delete/{linkId}', name: 'api_link_delete', methods: ['DELETE'])]
+    #[Route('/call/link/delete/{linkId}', name: 'call_link_delete', methods: ['DELETE'])]
     public function delete(string $linkId): JsonResponse
     {
         $link = $this->linkRepository->find($linkId);
@@ -50,7 +50,7 @@ class LinkController extends AbstractController
         return $this->json([]);
     }
 
-    #[Route('/call/link/{method}', name: 'api_link_create_update_move', methods: ['POST'])]
+    #[Route('/call/link/{method}', name: 'call_link_create_update_move', methods: ['POST'])]
     public function link(string $method, Request $request): JsonResponse
     {
         $linkDataArray = json_decode($request->getContent(), true);
@@ -70,9 +70,9 @@ class LinkController extends AbstractController
                 LinkValidator::METHOD_MOVE => $this->linkRepository->move($linkDataArray),
                 default => null,
             };
-        } catch (LinkRepositoryException $e) {
+        } catch (LinkRepositoryException $exception) {
             return $this->json(
-                ['error' => $e->getMessage()],
+                ['error' => $exception->getMessage()],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }

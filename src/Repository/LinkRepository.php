@@ -14,10 +14,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class LinkRepository extends ServiceEntityRepository
 {
     public function __construct(
-        ManagerRegistry $registry,
+        ManagerRegistry                     $registry,
         private readonly CategoryRepository $categoryRepository,
 
-    ) {
+    )
+    {
         parent::__construct($registry, Link::class);
     }
 
@@ -43,10 +44,13 @@ class LinkRepository extends ServiceEntityRepository
     {
         $category = $this->categoryRepository->find($linkData['categoryId']);
         if ($category instanceof Category === false) {
-            throw new LinkRepositoryException('Category not found');
+            throw new LinkRepositoryException('Category not found: ID: ' . $linkData['categoryId']);
         }
 
         $link = $this->find($linkData['id']);
+        if ($link instanceof Category) {
+            throw new LinkRepositoryException('Link not found: ID: ' . $linkData['id']);
+        }
         $link->setName($linkData['name']);
         $link->setUrl($linkData['url']);
         $link->setCategory($category);
