@@ -23,9 +23,6 @@ export default {
     },
 
     onDeleteClick() {
-      // TODO: REMOVE AFTER DEBUG
-      console.log('item', this.category);
-      // TODO: REMOVE AFTER DEBUG
       this.$emit('delete-category', this.category)
     },
   },

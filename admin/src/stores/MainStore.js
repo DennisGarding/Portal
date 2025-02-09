@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import Message from '@/Class/Base/Message'
-import CategoryType from "@/Class/Base/CategoryType.js";
+import CategoryType from '@/Class/Base/CategoryType.js'
+import CodeStyleType from '@/Class/Base/CodeStyleType.js'
 
 export const useMainStore = defineStore('mainStore', {
   state: () => ({
@@ -17,7 +18,23 @@ export const useMainStore = defineStore('mainStore', {
      * @type {CategoryType[]}
      */
     categoryTypes: [
-      new CategoryType('link', 'Link Categories'),
+      new CategoryType('link', 'Link type'),
+      new CategoryType('snippet', 'Snippet type'),
+    ],
+
+    codeStyleTypes: [
+      new CodeStyleType('php', 'PHP'),
+      new CodeStyleType('sql', 'SQL'),
+      new CodeStyleType('javascript', 'JavaScript'),
+      new CodeStyleType('typescript', 'TypeScript'),
+      new CodeStyleType('html', 'HTML'),
+      new CodeStyleType('twig', 'Twig'),
+      new CodeStyleType('css', 'CSS'),
+      new CodeStyleType('less', 'Less'),
+      new CodeStyleType('scss', 'Sass'),
+      new CodeStyleType('yaml', 'YAML'),
+      new CodeStyleType('json', 'JSON'),
+      new CodeStyleType('other', 'Other'),
     ],
   }),
 

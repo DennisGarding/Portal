@@ -39,6 +39,10 @@ export default {
         this.$emit('update:value', value)
       },
     },
+
+    isDisabled() {
+      return !this.categories.length
+    }
   },
 
   methods: {
@@ -52,7 +56,7 @@ export default {
 <template>
   <div class="mb-3">
     <label for="category" class="form-label">Category</label>
-    <select name="category" class="form-select" @change="onChange()" v-model="categoryId">
+    <select name="category" class="form-select" :disabled="isDisabled" @change="onChange()" v-model="categoryId">
       <option></option>
       <option
         v-for="category in categories"
@@ -62,6 +66,9 @@ export default {
         {{ category.name }}
       </option>
     </select>
+    <div v-if="isDisabled" id="passwordHelpBlock" class="form-text text-danger">
+      *You first need to create a category for snippets
+    </div>
   </div>
 </template>
 

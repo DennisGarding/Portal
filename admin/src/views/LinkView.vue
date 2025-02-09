@@ -1,5 +1,4 @@
 <script>
-import Router from '@/router/index.js'
 import LinkCategoryList from '@/components/LinkView/LinkCategoryList.vue'
 import BaseModal from "@/components/Base/BaseModal.vue";
 import PageHead from "@/components/Base/PageHead.vue";
@@ -27,7 +26,7 @@ export default {
 
   methods: {
     onAddLink() {
-      Router.push({ name: 'LinkForm' })
+      this.$router.push({ name: 'LinkForm' })
     },
 
     onLinkMoved(event) {

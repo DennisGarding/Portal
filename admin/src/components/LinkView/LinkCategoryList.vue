@@ -1,5 +1,5 @@
 <script>
-  import LinkCategory from "@/components/LinkView/LinkCategoryList/LinkCategory.vue";
+  import LinkCategory from "@/components/LinkView/LinkCategory.vue";
 
   export default {
     name: 'LinkCategoryList',
@@ -31,7 +31,7 @@
 </script>
 
 <template>
-  <div class="accordion" id="accordionExample">
+  <div class="accordion">
     <link-category v-for="category in categories" :category="category" :key="category.id" @link-dropped="onLinkDropped" @delete-link="onLinkDelete" @copy-link="onCopyLink"/>
   </div>
 </template>

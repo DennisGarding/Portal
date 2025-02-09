@@ -1,5 +1,5 @@
 <script>
-import LinkItem from '@/components/LinkView/LinkCategoryList/LinkItem.vue'
+import LinkItem from '@/components/LinkView/LinkItem.vue'
 
 export default {
   name: 'LinkCategory',
@@ -50,14 +50,6 @@ export default {
 
     onDeleteLink(link) {
       this.$emit('delete-link', link)
-    },
-
-    onEditCategory() {
-      this.$emit('edit-category', this.category)
-    },
-
-    onDeleteCategory() {
-      this.$emit('delete-category', this.category)
     },
 
     onCopyLink(link) {

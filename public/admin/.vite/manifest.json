@@ -1,4 +1,12 @@
 {
+  "_prism-BwNcvpUr.js": {
+    "file": "prism-BwNcvpUr.js",
+    "name": "prism",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.js"
+    ]
+  },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
     "file": "bootstrap-icons.woff",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
@@ -7,11 +15,24 @@
     "file": "bootstrap-icons.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
+  "node_modules/highlight.js/es/index.js": {
+    "file": "index-CKrRCxLO.js",
+    "name": "index",
+    "src": "node_modules/highlight.js/es/index.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.js"
+    ]
+  },
   "src/main.js": {
     "file": "main.js",
     "name": "main",
     "src": "src/main.js",
     "isEntry": true,
+    "dynamicImports": [
+      "node_modules/highlight.js/es/index.js",
+      "_prism-BwNcvpUr.js"
+    ],
     "css": [
       "main.css"
     ],

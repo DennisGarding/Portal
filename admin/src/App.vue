@@ -80,6 +80,13 @@ export default {
               </div>
               Links
             </router-link>
+
+            <router-link :to="{ name: 'Snippets' }" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="bi bi-code-square"></i>
+              </div>
+              Snippets
+            </router-link>
           </div>
         </div>
         <div class="sb-sidenav-footer">
@@ -129,6 +136,56 @@ export default {
 @import './../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 
 @import './assets/bootstrap.min.css';
+
+.code-pill {
+  &.lang-php {
+    background: #666666;
+  }
+
+  &.lang-javascript {
+    background: #A8A9AE;
+  }
+
+  &.lang-sql {
+    background: #C7C7BA;
+  }
+
+  &.lang-typescript {
+    background: #FFFAF1;
+  }
+
+  &.lang-twig {
+    background: #6F4E33;
+  }
+
+  &.lang-css {
+    background: #44648E;
+  }
+
+  &.lang-html {
+    background: #5F9EA1;
+  }
+
+  &.lang-less {
+    background: #A7DDBC;
+  }
+
+  &.lang-scss {
+    background: #4B8063;
+  }
+
+  &.lang-yaml {
+    background: #67A778;
+  }
+
+  &.lang-json {
+    background: #D4C070;
+  }
+
+  &.lang-other {
+    background: #99C4E1;
+  }
+}
 
 .content-container {
   position: absolute;
