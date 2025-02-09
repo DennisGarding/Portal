@@ -14,7 +14,7 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.$snippetRepository.loadSnippet(this.$route.params.id).then((response) => {
-        this.snippet = new Snippet(response.id, response.name, response.description, response.code, response.type, response.categoryId);
+        this.snippet = response;
       }).catch((error) =>  {
         this.$mainStore.addStickyMessage(new Message('Error', `Failed to load snippet with id: ${this.$route.params.id}`, error))
       })

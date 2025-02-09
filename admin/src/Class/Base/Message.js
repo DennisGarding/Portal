@@ -5,6 +5,6 @@ export default class Message {
         this.id = v4();
         this.title = title;
         this.message = message;
-        this.error = error
+        this.error = error;
     }
 }
