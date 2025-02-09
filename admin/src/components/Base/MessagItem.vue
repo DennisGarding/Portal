@@ -39,11 +39,14 @@ export default {
         @click="closeMessage()"
       ></button>
     </div>
+
     <div class="toast-body">
       {{ message.message }}
       <div v-if="message.error.length" class="mt-1">
-        <span class="text-danger">Error: </span>
-        {{ message.error }}
+        <div class="text-danger">Error: </div>
+        <pre>
+{{ message.error }}
+        </pre>
       </div>
     </div>
   </div>

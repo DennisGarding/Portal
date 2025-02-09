@@ -8,22 +8,28 @@ class CategoryValidator extends AbstractValidator
 {
     protected function getCreateConstraints(): Assert\Collection
     {
-        return new Assert\Collection([
-            'name' => $this->createNameConstraints(),
-            'type' => $this->createTypeConstraints(),
-        ]);
+        return new Assert\Collection($this->createBasicConstraints());
     }
 
     protected function getUpdateConstraints(): Assert\Collection
     {
-        return new Assert\Collection([
-            'id' => $this->createIdConstraints(),
-            'name' => $this->createNameConstraints(),
-            'type' => $this->createTypeConstraints(),
-        ]);
+        $constraints = $this->createBasicConstraints();
+        $constraints['id'] = $this->createIdConstraints();
+
+        return new Assert\Collection($constraints);
     }
 
-    private function createTypeConstraints()
+    private function createBasicConstraints(): array
+    {
+        return [
+            'name' => $this->createNameConstraints(),
+            'type' => $this->createTypeConstraints(),
+            'links' => [],
+            'snippets' => [],
+        ];
+    }
+
+    private function createTypeConstraints(): array
     {
         return [
             new Assert\NotBlank(null, 'Type is required.'),

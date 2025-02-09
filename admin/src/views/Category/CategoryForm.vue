@@ -14,8 +14,8 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.isEdit = true;
-      this.$categoryRepository.loadCategory(this.$route.params.id).then((categoryData) => {
-        this.category = new Category(categoryData.id, categoryData.name, categoryData.type)
+      this.$categoryRepository.loadCategory(this.$route.params.id).then((category) => {
+        this.category = category
       }).catch((error) => {
         this.$mainStore.addStickyMessage(new Message('Error', 'Failed load category', error));
       })
@@ -85,7 +85,6 @@ export default {
         name="name"
         placeholder="Enter category name..."
         v-model="category.name"
-
       />
     </div>
   </div>
