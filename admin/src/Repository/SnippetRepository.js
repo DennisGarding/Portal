@@ -13,27 +13,12 @@ export default class SnippetRepository {
       .then((response) => {
         this.mainStore.unsetLoading()
 
-        return response.data
+        return this.__createSnippet(response.data)
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
 
         return Promise.reject(error.response.data.error)
-      })
-  }
-
-  loadSnippets() {
-    return this.client
-      .get(`/call/snippet/load`)
-      .then((response) => {
-        this.mainStore.unsetLoading()
-
-        return response.data
-      })
-      .catch((error) => {
-        this.mainStore.unsetLoading()
-
-        return Promise.reject(error.response.data)
       })
   }
 
@@ -54,7 +39,7 @@ export default class SnippetRepository {
       .then((response) => {
         this.mainStore.unsetLoading()
 
-        return response.data
+        return this.__createSnippet(response.data)
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
@@ -68,15 +53,24 @@ export default class SnippetRepository {
 
     return this.client
       .delete(`/call/snippet/delete/${snippetId}`)
-      .then((response) => {
+      .then(() => {
         this.mainStore.unsetLoading()
-
-        return response.data
       })
       .catch((error) => {
         this.mainStore.unsetLoading()
 
         return Promise.reject(error.response.data.error)
       })
+  }
+
+  __createSnippet(snippetData) {
+    return new Snippet(
+      snippetData.id,
+      snippetData.name,
+      snippetData.description,
+      snippetData.code,
+      snippetData.type,
+      snippetData.categoryId,
+    )
   }
 }

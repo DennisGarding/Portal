@@ -14,7 +14,7 @@ export default {
 
   data() {
     return {
-      linkCategories: [],
+      categories: [],
       isDeleteConfirmModalOpen: false,
       categoryToDelete: null,
     }
@@ -28,10 +28,10 @@ export default {
     loadCategories() {
       this.$categoryRepository.loadCategories()
         .then((response) => {
-          this.linkCategories = response
+          this.categories = response
         })
         .catch((error) => {
-          this.$mainStore.addStickyMessage(new Message('Error', `Failed to load link categories`, error))
+          this.$mainStore.addStickyMessage(new Message('Error', `Failed to load categories`, error))
         })
     },
 
@@ -69,7 +69,7 @@ export default {
   </page-head>
 
   <category-list
-    :categories="this.linkCategories"
+    :categories="this.categories"
     @delete-category="onCategoryDelete"
   />
 

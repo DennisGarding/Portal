@@ -13,10 +13,8 @@ export default {
 
   created() {
     if (this.$route.params.id) {
-
       this.$categoryRepository.loadCategory(this.$route.params.id).then((categoryData) => {
         this.category = new Category(categoryData.id, categoryData.name, categoryData.type)
-
       }).catch((error) => {
         this.$mainStore.addStickyMessage(new Message('Error', 'Failed load category', error));
       })
