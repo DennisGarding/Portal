@@ -37,7 +37,6 @@ export default class CategoryRepository {
         const categoryArray = []
 
         response.data.forEach((categoryData) => {
-          console.log(categoryData)
           categoryArray.push(this.__createCategory(categoryData))
         })
 
@@ -116,29 +115,25 @@ export default class CategoryRepository {
       })
   }
 
-  __createCategory(categoryData, type = '') {
+  __createCategory(categoryData) {
     const category = new Category(categoryData.id, categoryData.name, categoryData.type)
 
-    if (type === 'link') {
-      categoryData.links.forEach((link) => {
-        category.addLink(new Link(link.id, link.categoryId, link.name, link.url))
-      })
-    }
+    categoryData.links.forEach((link) => {
+      category.addLink(new Link(link.id, link.categoryId, link.name, link.url))
+    })
 
-    if (type === 'snippet') {
-      categoryData.snippets.forEach((snippet) => {
-        category.addSnippet(
-          new Snippet(
-            snippet.id,
-            snippet.name,
-            snippet.description,
-            snippet.code,
-            snippet.type,
-            snippet.categoryId,
-          ),
-        )
-      })
-    }
+    categoryData.snippets.forEach((snippet) => {
+      category.addSnippet(
+        new Snippet(
+          snippet.id,
+          snippet.name,
+          snippet.description,
+          snippet.code,
+          snippet.type,
+          snippet.categoryId,
+        ),
+      )
+    })
 
     return category
   }
