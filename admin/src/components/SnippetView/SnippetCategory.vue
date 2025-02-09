@@ -1,13 +1,11 @@
 <script>
 import Category from '@/Class/Models/Category.js'
-import CategoryItem from '@/components/CategoryView/CategoryItem.vue'
 import SnippetItem from '@/components/SnippetView/SnippetItem.vue'
 
 export default {
   name: 'SnippetCategory',
   components: {
     SnippetItem,
-    CategoryItem,
   },
 
   props: {

@@ -6,11 +6,17 @@ export default {
     value: {
       type: String,
     },
+
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
     return {
-      categoryTypes: this.$mainStore.categoryTypes
+      categoryTypes: this.$mainStore.categoryTypes,
     }
   },
 
@@ -36,7 +42,13 @@ export default {
 <template>
   <div class="mb-3">
     <label for="categoryType" class="form-label">Category Type</label>
-    <select name="categoryType" class="form-select" @change="onChange()" v-model="type">
+    <select
+      name="categoryType"
+      class="form-select"
+      @change="onChange()"
+      v-model="type"
+      :disabled="disabled"
+    >
       <option></option>
       <option
         v-for="categoryType in categoryTypes"

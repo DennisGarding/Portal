@@ -39,13 +39,15 @@ export default {
 </script>
 
 <template>
-  <category-type
-    v-for="categoryType in categoryTypes"
-    :categories="typedCategories(categoryType.type)"
-    :category-type="categoryType"
-    :key="categoryType.type"
-    @delete-category="onCategoryDelete"
-  />
+  <div class="accordion">
+    <category-type
+      v-for="categoryType in categoryTypes"
+      :categories="typedCategories(categoryType.type)"
+      :category-type="categoryType"
+      :key="categoryType.type"
+      @delete-category="onCategoryDelete"
+    />
+  </div>
 </template>
 
 <style scoped></style>

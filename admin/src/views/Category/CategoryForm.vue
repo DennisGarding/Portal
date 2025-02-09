@@ -13,6 +13,7 @@ export default {
 
   created() {
     if (this.$route.params.id) {
+      this.isEdit = true;
       this.$categoryRepository.loadCategory(this.$route.params.id).then((categoryData) => {
         this.category = new Category(categoryData.id, categoryData.name, categoryData.type)
       }).catch((error) => {
@@ -24,6 +25,7 @@ export default {
   data() {
     return {
       category: new Category(),
+      isEdit: false,
     }
   },
 
@@ -72,7 +74,7 @@ export default {
   <div>
     <input type="hidden" name="id" v-model="category.id" />
 
-    <category-type-select v-model:value="category.type"/>
+    <category-type-select v-model:value="category.type" :disabled="isEdit"/>
 
     <div class="mb-3">
       <label for="categoryName" class="form-label">Category Name</label>
@@ -83,6 +85,7 @@ export default {
         name="name"
         placeholder="Enter category name..."
         v-model="category.name"
+
       />
     </div>
   </div>
