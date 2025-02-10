@@ -2,12 +2,20 @@ import { defineStore } from 'pinia'
 import Message from '@/Class/Base/Message'
 import CategoryType from '@/Class/Base/CategoryType.js'
 import CodeStyleType from '@/Class/Base/CodeStyleType.js'
+import mitt from 'mitt';
+
+const emitter = mitt();
 
 export const useMainStore = defineStore('mainStore', {
   state: () => ({
     loadingCounter: 0,
 
     loadings: [],
+
+    /**
+     * @type Object
+     */
+    accordionStates: null,
 
     /**
      * @type {Message[]}
@@ -86,6 +94,20 @@ export const useMainStore = defineStore('mainStore', {
       }
 
       this.messages.push(message)
+    },
+
+    initAccordionStates(states) {
+      this.accordionStates = states
+
+      emitter.emit('accordionStatesLoaded');
+    },
+
+    setAccordionState(type, id, isOpen) {
+      if (!this.accordionStates[type]) {
+        this.accordionStates[type] = {}
+      }
+
+      this.accordionStates[type][id] = isOpen
     },
 
     __invalidMessage() {

@@ -28,6 +28,9 @@ export default {
   methods: {
     onclickCategoryHeader() {
       this.isCollapsed = !this.isCollapsed
+
+      this.$mainStore.setAccordionState('link', this.category.id, !this.isCollapsed)
+      this.$accordionStateRepository.saveAccordionState()
     },
 
     onDrop(event) {
@@ -35,7 +38,7 @@ export default {
       event.stopPropagation()
 
       const linkId = Number(event.dataTransfer.getData('linkId'))
-      const sourceCategoryId = Number(event.dataTransfer.getData('sourceCategoryId'));
+      const sourceCategoryId = Number(event.dataTransfer.getData('sourceCategoryId'))
 
       if (sourceCategoryId === this.category.id) {
         return
@@ -54,36 +57,56 @@ export default {
 
     onCopyLink(link) {
       this.$emit('copy-link', link)
-    }
+    },
+  },
+
+  watch: {
+    $mainStore: {
+      handler() {
+        if (
+          !this.$mainStore.accordionStates ||
+          !this.$mainStore.accordionStates['link'] ||
+          !this.$mainStore.accordionStates['link'][this.category.id]
+        ) {
+          return
+        }
+
+        this.isCollapsed = !this.$mainStore.accordionStates['link'][this.category.id]
+      },
+      deep: true,
+      immediate: true,
+    },
   },
 }
 </script>
 
 <template>
-  <div v-if="category.links.length" class="accordion-item" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
+  <div
+    v-if="category.links.length"
+    class="accordion-item"
+    @drop="onDrop($event)"
+    @dragover.prevent
+    @dragenter.prevent
+  >
     <h2 class="accordion-header inline-block col" @click="onclickCategoryHeader">
-      <button
-        class="accordion-button"
-        :class="{ collapsed: isCollapsed }"
-        type="button"
-      >
+      <button class="accordion-button" :class="{ collapsed: isCollapsed }" type="button">
         <strong>{{ category.name }}</strong>
       </button>
     </h2>
-    <div
-      class="accordion-collapse collapse"
-      :class="{ show: !isCollapsed }"
-      @drop="onDrop($event)"
-    >
+    <div class="accordion-collapse collapse" :class="{ show: !isCollapsed }" @drop="onDrop($event)">
       <div class="accordion-body">
         <div class="list-group">
-          <link-item v-for="link in category.links" :link="link" :key="link.id" @delete-link="onDeleteLink" @copy-link="onCopyLink"/>
+          <link-item
+            v-for="link in category.links"
+            :link="link"
+            :key="link.id"
+            @delete-link="onDeleteLink"
+            @copy-link="onCopyLink"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -7,6 +7,10 @@ export default {
     MessageContainer,
   },
 
+  created() {
+    this.$accordionStateRepository.loadAccordionState()
+  },
+
   computed: {
     isLoading() {
       return this.$mainStore.isLoading()
@@ -23,7 +27,6 @@ export default {
 
 <template>
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="/">Portal</a>
 
@@ -33,26 +36,25 @@ export default {
     </button>
 
     <!-- Navbar Search-->
-      <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        <div class="input-group">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="Search for..."
-            aria-label="Search for..."
-            aria-describedby="btnNavbarSearch"
-          />
-          <button class="btn btn-primary" id="btnNavbarSearch" type="button">
-            <i class="bi bi-search"></i>
-          </button>
-        </div>
-      </form>
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+      <div class="input-group">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Search for..."
+          aria-label="Search for..."
+          aria-describedby="btnNavbarSearch"
+        />
+        <button class="btn btn-primary" id="btnNavbarSearch" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </form>
     <message-container
       @close-message="oncloseMessage"
       :messages="this.$mainStore.messages"
       :sticky-messages="this.$mainStore.stickyMessages"
     />
-
   </nav>
   <div id="layoutSidenav">
     <!-- Navbar left side -->
@@ -143,47 +145,47 @@ export default {
   }
 
   &.lang-javascript {
-    background: #A8A9AE;
+    background: #a8a9ae;
   }
 
   &.lang-sql {
-    background: #C7C7BA;
+    background: #c7c7ba;
   }
 
   &.lang-typescript {
-    background: #FFFAF1;
+    background: #fffaf1;
   }
 
   &.lang-twig {
-    background: #6F4E33;
+    background: #6f4e33;
   }
 
   &.lang-css {
-    background: #44648E;
+    background: #44648e;
   }
 
   &.lang-html {
-    background: #5F9EA1;
+    background: #5f9ea1;
   }
 
   &.lang-less {
-    background: #A7DDBC;
+    background: #a7ddbc;
   }
 
   &.lang-scss {
-    background: #4B8063;
+    background: #4b8063;
   }
 
   &.lang-yaml {
-    background: #67A778;
+    background: #67a778;
   }
 
   &.lang-json {
-    background: #D4C070;
+    background: #d4c070;
   }
 
   &.lang-other {
-    background: #99C4E1;
+    background: #99c4e1;
   }
 }
 

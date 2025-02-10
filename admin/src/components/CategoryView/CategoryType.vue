@@ -33,16 +33,34 @@ export default {
 
     onclickCategoryHeader() {
       this.isCollapsed = !this.isCollapsed
+
+      this.$mainStore.setAccordionState('category', this.categoryType.type, !this.isCollapsed)
+      this.$accordionStateRepository.saveAccordionState()
+    },
+  },
+
+  watch: {
+    $mainStore: {
+      handler() {
+        if (
+          !this.$mainStore.accordionStates ||
+          !this.$mainStore.accordionStates['category'] ||
+          !this.$mainStore.accordionStates['category'][this.categoryType.type]
+        ) {
+          return
+        }
+
+        this.isCollapsed = !this.$mainStore.accordionStates['category'][this.categoryType.type]
+      },
+      deep: true,
+      immediate: true,
     },
   },
 }
 </script>
 
 <template>
-  <div
-    v-if="categories.length"
-    class="accordion-item"
-  >
+  <div v-if="categories.length" class="accordion-item">
     <h2 class="accordion-header inline-block col" @click="onclickCategoryHeader">
       <button class="accordion-button" :class="{ collapsed: isCollapsed }" type="button">
         <strong>{{ categoryType.label }}</strong>

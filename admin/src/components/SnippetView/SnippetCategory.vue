@@ -24,6 +24,9 @@ export default {
   methods: {
     onclickCategoryHeader() {
       this.isCollapsed = !this.isCollapsed
+
+      this.$mainStore.setAccordionState('snippet', this.category.id, !this.isCollapsed)
+      this.$accordionStateRepository.saveAccordionState()
     },
 
     onDeleteSnippet(snippet) {
@@ -33,6 +36,24 @@ export default {
     onDrop(event) {
       event.preventDefault()
       event.stopPropagation()
+    },
+  },
+
+  watch: {
+    $mainStore: {
+      handler() {
+        if (
+          !this.$mainStore.accordionStates ||
+          !this.$mainStore.accordionStates['snippet'] ||
+          !this.$mainStore.accordionStates['snippet'][this.category.id]
+        ) {
+          return
+        }
+
+        this.isCollapsed = !this.$mainStore.accordionStates['snippet'][this.category.id]
+      },
+      deep: true,
+      immediate: true,
     },
   },
 }

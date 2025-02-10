@@ -68,10 +68,12 @@ export default {
     </button>
   </page-head>
 
-  <category-list
-    :categories="this.categories"
-    @delete-category="onCategoryDelete"
-  />
+  <div class="mt-3">
+    <category-list
+      :categories="this.categories"
+      @delete-category="onCategoryDelete"
+    />
+  </div>
 
   <base-modal :open="isDeleteConfirmModalOpen" @close="closeDeleteModal">
     <template #title>Delete Category</template>
