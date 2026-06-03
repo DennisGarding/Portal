@@ -7,14 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20250131205721 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Category';
     }
 
     public function up(Schema $schema): void
@@ -26,6 +23,6 @@ final class Version20250131205721 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->addSql('ALTER TABLE link DROP FOREIGN KEY FK_36AC99F112469DE2');
-        $this->addSql('DROP TABLE category');
+        $this->addSql('DROP TABLE IF EXISTS category');
     }
 }

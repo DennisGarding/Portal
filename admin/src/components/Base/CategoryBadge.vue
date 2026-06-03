@@ -30,10 +30,14 @@ export default {
     background: #AB5A74;
   }
 
-  &.furureImplemenations {
+  &.note {
     background: #E27E7E;
-    background: #EA9E79;
+
+  }
+
+  &.furureImplemenations {
     background: #E9B661;
+    background: #EA9E79;
     background: #EB8126;
   }
 }

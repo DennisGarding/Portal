@@ -1,14 +1,17 @@
 <script>
 import PageHead from '@/components/Base/PageHead.vue'
-import Snippet from '@/Class/Models/Snippet.js'
 import Message from '@/Class/Base/Message.js'
 import CodeBlock from '@/components/Base/CodeBlock.vue'
 import CodeBadge from '@/components/Base/CodeBadge.vue'
-import Category from '@/Class/Models/Category.js'
+import ContentContainer from '@/components/Base/ContentContainer.vue'
+import BaseModal from '@/components/Base/BaseModal.vue'
 
 export default {
   name: 'SnippetDetail',
+
   components: {
+    BaseModal,
+    ContentContainer,
     CodeBadge,
     CodeBlock,
     PageHead,
@@ -23,20 +26,13 @@ export default {
 
     this.$snippetRepository
       .loadSnippet(this.$route.params.id)
-      .then((response) => {
-        this.snippet = new Snippet(
-          response.id,
-          response.name,
-          response.description,
-          response.code,
-          response.type,
-          response.categoryId,
-        )
+      .then((snippet) => {
+        this.snippet = snippet
 
         this.$categoryRepository
           .loadCategory(this.snippet.categoryId)
-          .then((response) => {
-            this.category = new Category(response.id, response.name, response.type)
+          .then((category) => {
+            this.category = category
           })
           .catch((error) => {
             throw new Error(
@@ -55,12 +51,31 @@ export default {
     return {
       snippet: { name: '' },
       category: { name: '' },
+      isDeleteConfirmModalOpen: false
     }
   },
 
   methods: {
     onEdit() {
       this.$router.push({ name: 'SnippetForm', params: { id: this.snippet.id } })
+    },
+
+    onDeleteClick() {
+      this.isDeleteConfirmModalOpen = true;
+    },
+
+    closeDeleteModal() {
+      this.isDeleteConfirmModalOpen = false;
+    },
+
+    onConfirmDelete() {
+      this.$snippetRepository.deleteSnippet(this.snippet.id).then(() =>  {
+        this.$mainStore.addMessage(new Message('Deleted', 'Snippet successfully deleted'))
+        this.$router.push({ name: 'Snippets'})
+      }).catch((error) => {
+        this.$mainStore.addStickyMessage(new Message('Error', 'Cannot delete snippet.', error))
+        this.isDeleteConfirmModalOpen = false;
+      })
     },
   },
 }
@@ -72,9 +87,13 @@ export default {
       <i class="bi bi-pencil"></i>
       Edit Snippet
     </button>
+    <button class="btn btn-sm btn-danger" type="button" @click="onDeleteClick()">
+      <i class="bi bi-trash"></i>
+      Delete Snippet
+    </button>
   </page-head>
 
-  <div class="container mt-4">
+  <content-container>
     <h3>Description</h3>
     <p>{{ snippet.description }}</p>
 
@@ -83,7 +102,16 @@ export default {
       <code-badge :type="snippet.type" />
     </div>
     <code-block :code="snippet.code" />
-  </div>
+  </content-container>
+
+  <base-modal :open="isDeleteConfirmModalOpen" @close="closeDeleteModal">
+    <template #title>Delete Snippet</template>
+    <template #content>Are you sure you want to delete this snippet?</template>
+    <template #buttons>
+      <button class="btn btn-light" @click="closeDeleteModal">Cancel</button>
+      <button class="btn btn-danger" @click="onConfirmDelete">Delete</button>
+    </template>
+  </base-modal>
 </template>
 
 <style scoped></style>

@@ -8,6 +8,8 @@ export default class SnippetRepository {
   }
 
   loadSnippet(id) {
+    this.mainStore.setLoading()
+
     return this.client
       .get(`/call/snippet/load/${id}`)
       .then((response) => {

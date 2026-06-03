@@ -4,6 +4,7 @@ import SnippetItem from '@/components/SnippetView/SnippetItem.vue'
 
 export default {
   name: 'SnippetCategory',
+
   components: {
     SnippetItem,
   },

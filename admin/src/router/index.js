@@ -7,6 +7,12 @@ import LinkForm from '@/views/Link/LinkForm.vue'
 import SnippetView from "@/views/SnippetView.vue";
 import SnippetForm from "@/views/Snippet/SnippetForm.vue";
 import SnippetDetail from "@/views/Snippet/SnippetDetail.vue";
+import NoteView from "@/views/NoteView.vue";
+import NoteForm from "@/views/Note/NoteForm.vue";
+import NoteDetail from "@/views/Note/NoteDetail.vue";
+import TaskForm from "@/views/Task/TaskForm.vue";
+import TaskView from "@/views/TaskView.vue";
+import TaskDetail from "@/views/Task/TaskDetail.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +62,40 @@ const router = createRouter({
       path: '/snippet/detail/:id',
       name: 'SnippetDetail',
       component: SnippetDetail,
+    },
+
+    // Notes
+    {
+      path: '/notes',
+      name: 'Notes',
+      component: NoteView,
+    },
+    {
+      path: '/notes/form/:id?',
+      name: 'NoteForm',
+      component: NoteForm,
+    },
+    {
+      path: '/note/detail/:id',
+      name: 'NoteDetail',
+      component: NoteDetail,
+    },
+
+    // Tasks
+    {
+      path: '/tasks',
+      name: 'Task',
+      component: TaskView,
+    },
+    {
+      path: '/task/form/:id?',
+      name: 'TaskForm',
+      component: TaskForm,
+    },
+    {
+      path: '/tasks/detail/:id',
+      name: 'TaskDetail',
+      component: TaskDetail,
     },
   ],
 })

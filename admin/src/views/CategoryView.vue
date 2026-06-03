@@ -3,10 +3,12 @@ import PageHead from '@/components/Base/PageHead.vue'
 import CategoryList from '@/components/CategoryView/CategoryList.vue'
 import Message from '@/Class/Base/Message.js'
 import BaseModal from '@/components/Base/BaseModal.vue'
+import ContentContainer from "@/components/Base/ContentContainer.vue";
 
 export default {
   name: 'CategoryView',
   components: {
+    ContentContainer,
     BaseModal,
     CategoryList,
     PageHead,
@@ -68,12 +70,12 @@ export default {
     </button>
   </page-head>
 
-  <div class="mt-3">
+  <content-container>
     <category-list
       :categories="this.categories"
       @delete-category="onCategoryDelete"
     />
-  </div>
+  </content-container>
 
   <base-modal :open="isDeleteConfirmModalOpen" @close="closeDeleteModal">
     <template #title>Delete Category</template>

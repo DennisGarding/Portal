@@ -28,6 +28,7 @@ export const useMainStore = defineStore('mainStore', {
     categoryTypes: [
       new CategoryType('link', 'Link type'),
       new CategoryType('snippet', 'Snippet type'),
+      new CategoryType('note', 'Note type'),
     ],
 
     codeStyleTypes: [

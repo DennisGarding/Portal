@@ -26,6 +26,7 @@ class CategoryValidator extends AbstractValidator
             'type' => $this->createTypeConstraints(),
             'links' => [],
             'snippets' => [],
+            'notes' => [],
         ];
     }
 
@@ -43,6 +44,7 @@ class CategoryValidator extends AbstractValidator
         $types = [
             'link',
             'snippet',
+            'note',
         ];
 
         $constraints = [];

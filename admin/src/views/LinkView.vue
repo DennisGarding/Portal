@@ -3,10 +3,12 @@ import LinkCategoryList from '@/components/LinkView/LinkCategoryList.vue'
 import BaseModal from "@/components/Base/BaseModal.vue";
 import PageHead from "@/components/Base/PageHead.vue";
 import Message from "@/Class/Base/Message.js";
+import ContentContainer from "@/components/Base/ContentContainer.vue";
 
 export default {
   name: 'LinkView',
   components: {
+    ContentContainer,
     PageHead,
     BaseModal,
     LinkCategoryList
@@ -83,14 +85,14 @@ export default {
     </button>
   </page-head>
 
-  <div class="mt-3">
+  <content-container>
     <LinkCategoryList
       :categories="linkCategories"
       @link-moved="onLinkMoved"
       @delete-link="onLinkDeleteClick"
       @copy-link="onCopyLink"
     />
-  </div>
+  </content-container>
 
   <base-modal :open="isDeleteConfirmModalOpen" @close="closeDeleteModal">
     <template #title>Delete Link</template>
