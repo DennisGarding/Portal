@@ -26,7 +26,7 @@ class LinkRepository extends ServiceEntityRepository
     {
         $category = $this->categoryRepository->find($linkData['categoryId']);
         if ($category instanceof Category === false) {
-            throw new LinkRepositoryException('Category not found');
+            throw new LinkRepositoryException('Category not found: ID: ' . $linkData['categoryId']);
         }
 
         $link = new Link();
@@ -48,7 +48,7 @@ class LinkRepository extends ServiceEntityRepository
         }
 
         $link = $this->find($linkData['id']);
-        if ($link instanceof Category) {
+        if (!$link instanceof Link) {
             throw new LinkRepositoryException('Link not found: ID: ' . $linkData['id']);
         }
         $link->setName($linkData['name']);

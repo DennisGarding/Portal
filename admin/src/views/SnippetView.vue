@@ -3,10 +3,11 @@ import PageHead from '@/components/Base/PageHead.vue'
 import SnippetCategoryList from '@/components/SnippetView/SnippetCategoryList.vue'
 import Message from '@/Class/Base/Message.js'
 import BaseModal from "@/components/Base/BaseModal.vue";
+import ContentContainer from "@/components/Base/ContentContainer.vue";
 
 export default {
   name: 'SnippetView',
-  components: {BaseModal, SnippetCategoryList, PageHead },
+  components: {ContentContainer, BaseModal, SnippetCategoryList, PageHead },
 
   created() {
     this.loadSnippets();
@@ -72,9 +73,9 @@ export default {
     </button>
   </page-head>
 
-  <div class="mt-3">
+  <content-container>
     <snippet-category-list :categories="categories" @deleteSnippet="onDeleteSnippet" />
-  </div>
+  </content-container>
 
   <base-modal :open="isDeleteConfirmModalOpen" @close="closeDeleteModal">
     <template #title>Delete Snippet</template>

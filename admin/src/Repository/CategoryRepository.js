@@ -2,6 +2,7 @@ import axios from 'axios'
 import Category from '@/Class/Models/Category.js'
 import Link from '@/Class/Models/Link.js'
 import Snippet from '@/Class/Models/Snippet.js'
+import Note from "@/Class/Models/Note.js";
 
 export default class CategoryRepository {
   constructor(mainStore) {
@@ -133,6 +134,15 @@ export default class CategoryRepository {
           snippet.categoryId,
         ),
       )
+    })
+
+    categoryData.notes.forEach((note) => {
+      category.addNote(new Note(
+        note.id,
+        note.name,
+        note.note,
+        note.categoryId
+      ))
     })
 
     return category

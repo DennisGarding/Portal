@@ -19,16 +19,9 @@ export default {
           this.link = new Link(response.id, response.categoryId, response.name, response.url)
         })
         .catch((error) => {
-          this.$mainStore.addStickyMessage(new Message('Error', 'Failed load link', error))
+          this.$mainStore.addStickyMessage(new Message('Error', 'Failed to load link', error))
         })
     }
-  },
-
-  props: {
-    mainStore: {
-      type: Object,
-      required: true,
-    },
   },
 
   data() {

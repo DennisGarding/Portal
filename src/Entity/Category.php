@@ -33,10 +33,17 @@ class Category implements \JsonSerializable
     #[ORM\OneToMany(targetEntity: Snippet::class, mappedBy: 'category')]
     private Collection $snippets;
 
+    /**
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'category')]
+    private Collection $notes;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
         $this->snippets = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +143,37 @@ class Category implements \JsonSerializable
             'type' => $this->type,
             'links' => \array_map(function ($link) {return $link->jsonSerialize();}, $this->links->toArray()),
             'snippets' => \array_map(function ($snippet) {return $snippet->jsonSerialize();}, $this->snippets->toArray()),
+            'notes' => \array_map(function ($note) {return $note->jsonSerialize();}, $this->notes->toArray()),
         ];
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getCategory() === $this) {
+                $note->setCategory(null);
+            }
+        }
+
+        return $this;
     }
 }

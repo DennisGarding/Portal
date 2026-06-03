@@ -1,5 +1,7 @@
 <script>
 import MessageContainer from '@/components/Base/MessageContainer.vue'
+import axios from 'axios'
+import Message from '@/Class/Base/Message.js'
 
 export default {
   name: 'App',
@@ -7,8 +9,20 @@ export default {
     MessageContainer,
   },
 
+  data() {
+    return {
+      userMail: null,
+    }
+  },
+
   created() {
     this.$accordionStateRepository.loadAccordionState()
+
+    this.getUser()
+
+    setInterval(() => {
+      this.keepAlive()
+    }, 1000 * 60)
   },
 
   computed: {
@@ -20,6 +34,33 @@ export default {
   methods: {
     oncloseMessage(message) {
       this.$mainStore.removeMessage(message.id)
+    },
+
+    getUser() {
+      this.$mainStore.setLoading()
+      axios
+        .get('/call/load/user')
+        .then((response) => {
+          this.userMail = response.data.userMail
+          this.$mainStore.unsetLoading()
+        })
+        .catch((error) => {
+          this.$mainStore.unsetLoading()
+          this.$mainStore.addStickyMessage(new Message('Error', 'Could not load user', error))
+        })
+    },
+
+    keepAlive() {
+      axios
+        .get('/call/keepAlive')
+        .then((response) => {
+          if (!response.data.success) {
+            window.location.reload()
+          }
+        })
+        .catch(() => {
+          window.location.reload()
+        })
     },
   },
 }
@@ -89,13 +130,27 @@ export default {
               </div>
               Snippets
             </router-link>
+
+            <router-link :to="{ name: 'Notes' }" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="bi bi-file-earmark-text"></i>
+              </div>
+              Notes
+            </router-link>
+
+            <router-link :to="{ name: 'Task' }" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="bi bi-kanban"></i>
+              </div>
+              Board
+            </router-link>
           </div>
         </div>
         <div class="sb-sidenav-footer">
           <div class="mb-3">
             <div>Logged in as:</div>
             <div class="small">
-              <!--                            {{ userMail }}-->
+              {{ userMail }}
             </div>
             <div class="mt-2">
               <a href="/logout">Logout</a>
@@ -112,18 +167,6 @@ export default {
           <RouterView />
         </div>
       </main>
-
-      <!-- Footer -->
-      <footer class="py-4 bg-light mt-auto">
-        <div class="container-fluid px-4">
-          <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">
-              Portal
-              <i class="bi bi-arrow-through-heart-fill"></i>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   </div>
 
@@ -136,8 +179,21 @@ export default {
 
 <style>
 @import './../node_modules/bootstrap-icons/font/bootstrap-icons.css';
-
 @import './assets/bootstrap.min.css';
+
+body {
+  overflow: hidden;
+}
+.content-container {
+
+  .list-container {
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: #5B6977 #DF6919;
+    scrollbar-width: thin;
+  }
+}
 
 .code-pill {
   &.lang-php {
