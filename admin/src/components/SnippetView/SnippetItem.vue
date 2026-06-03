@@ -48,7 +48,7 @@ export default {
       <div class="col col-10 list-group-item-snippet">
         <div class="row">
           <div class="col col-1"><code-badge :type="snippet.type" /></div>
-          <div class="col col-4">{{snippet.name}}</div>
+          <div class="col col-4 snippet-name" @click="onShowClick()">{{snippet.name}}</div>
           <div class="col col-5 text-body-tertiary">{{snippet.description}}</div>
         </div>
       </div>
@@ -88,6 +88,11 @@ export default {
     align-items: center;
     font-size: x-large;
     background-color: #0f2537;
+  }
+
+  .snippet-name {
+    cursor: pointer;
+    user-select: none;
   }
 }
 </style>
