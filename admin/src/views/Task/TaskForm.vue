@@ -38,7 +38,10 @@ export default {
     },
 
     onSave() {
-      this.task.status = 'open'
+      // Only set default status for new tasks
+      if (!this.task.id) {
+        this.task.status = 'open'
+      }
 
       this.$taskRepository
         .saveTask(this.task)
