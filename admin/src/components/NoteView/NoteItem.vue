@@ -43,7 +43,9 @@ export default {
 
       <div class="col col-10">
         <div class="row">
-          <div class="col col-4">{{ note.name }}</div>
+          <div class="col col-4">
+            <button class="btn btn-link p-0 text-start" @click="onShowClick()">{{ note.name }}</button>
+          </div>
         </div>
       </div>
 
