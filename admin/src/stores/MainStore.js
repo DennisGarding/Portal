@@ -15,7 +15,7 @@ export const useMainStore = defineStore('mainStore', {
     /**
      * @type Object
      */
-    accordionStates: null,
+    accordionStates: {},
 
     /**
      * @type {Message[]}
@@ -98,12 +98,23 @@ export const useMainStore = defineStore('mainStore', {
     },
 
     initAccordionStates(states) {
-      this.accordionStates = states
+      // Merge loaded states with any existing states set during initialization
+      if (states && typeof states === 'object') {
+        this.accordionStates = { ...this.accordionStates, ...states }
+      } else {
+        // Fallback to empty object if states is null/undefined
+        this.accordionStates = { ...this.accordionStates }
+      }
 
       emitter.emit('accordionStatesLoaded');
     },
 
     setAccordionState(type, id, isOpen) {
+      // Defensive initialization in case accordionStates is still null
+      if (!this.accordionStates) {
+        this.accordionStates = {}
+      }
+
       if (!this.accordionStates[type]) {
         this.accordionStates[type] = {}
       }
