@@ -101,7 +101,7 @@ export default {
       <span class="badge bg-secondary me-1">{{ category.name }}</span>
       <code-badge :type="snippet.type" />
     </div>
-    <code-block :code="snippet.code" />
+    <code-block :code="snippet.code" :lang="snippet.type" />
   </content-container>
 
   <base-modal :open="isDeleteConfirmModalOpen" @close="closeDeleteModal">
