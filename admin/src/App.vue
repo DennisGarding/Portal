@@ -195,6 +195,17 @@ body {
   }
 }
 
+.sb-sidenav-menu .nav-link.router-link-active,
+.sb-sidenav-menu .nav-link.router-link-exact-active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-left: 3px solid #007bff;
+}
+
+.sb-sidenav-menu .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 .code-pill {
   &.lang-php {
     background: #666666;
