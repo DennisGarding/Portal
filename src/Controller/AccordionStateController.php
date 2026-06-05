@@ -24,9 +24,9 @@ class AccordionStateController extends AbstractController
     {
         $state = $this->accordionStateRepository->find(1);
         if (!$state instanceof AccordionState) {
-            $this->json(
+            return $this->json(
                 ['error' => 'Could not load accordionState'],
-                Response::HTTP_INTERNAL_SERVER_ERROR
+                Response::HTTP_NOT_FOUND
             );
         }
 
@@ -40,9 +40,9 @@ class AccordionStateController extends AbstractController
         $state = $this->accordionStateRepository->find(1);
 
         if (!$state instanceof AccordionState) {
-            $this->json(
+            return $this->json(
                 ['error' => 'Could not load accordionState'],
-                Response::HTTP_INTERNAL_SERVER_ERROR
+                Response::HTTP_NOT_FOUND
             );
         }
 
