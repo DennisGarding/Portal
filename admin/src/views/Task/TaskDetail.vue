@@ -35,9 +35,7 @@ export default {
       })
       .catch((error) => {
         this.$mainStore.addStickyMessage(
-          'error',
-          `Could not load task with ID: ${this.task.id}.`,
-          error,
+          new Message('Error', `Failed to load task with id: ${this.$route.params.id}`, error),
         )
       })
   },
