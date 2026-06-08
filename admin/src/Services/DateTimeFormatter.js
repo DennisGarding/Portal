@@ -26,7 +26,7 @@ export const DateFormater = {
       // TODO: REMOVE AFTER DEBUG
       // console.log('err2', err);
       // TODO: REMOVE AFTER DEBUG
-      return 'Invalid date'
+      return null
     }
   },
 
@@ -41,8 +41,20 @@ export const DateFormater = {
       return null
     }
 
-    // Format as YYYY-MM-DDTHH:mm for datetime-local input
-    const pad = (num) => String(num).padStart(2, '0')
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
+    try {
+      // Format as YYYY-MM-DDTHH:mm for datetime-local input
+      const pad = (num) => String(num).padStart(2, '0')
+
+      // Use local time for datetime-local input
+      const year = date.getFullYear()
+      const month = pad(date.getMonth() + 1)
+      const day = pad(date.getDate())
+      const hours = pad(date.getHours())
+      const minutes = pad(date.getMinutes())
+
+      return `${year}-${month}-${day}T${hours}:${minutes}`
+    } catch (err) {
+      return null
+    }
   },
 }
