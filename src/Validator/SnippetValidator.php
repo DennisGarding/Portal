@@ -10,7 +10,7 @@ class SnippetValidator extends AbstractValidator
     {
         return new Assert\Collection([
             'name' => $this->createNameConstraints(),
-            'description' => new Assert\Type('string', 'Description must be a non empty string.'),
+            'description' => new Assert\Optional(new Assert\Type('string', 'Description must be a string.')),
             'code' => $this->createCodeConstraints(),
             'type' => $this->createTypeConstraints(),
             'categoryId' => $this->createCategoryIdConstraints(),
@@ -22,7 +22,7 @@ class SnippetValidator extends AbstractValidator
         return new Assert\Collection([
             'id' => $this->createIdConstraints(),
             'name' => $this->createNameConstraints(),
-            'description' => new Assert\Type('string', 'Description must be a non empty string.'),
+            'description' => new Assert\Optional(new Assert\Type('string', 'Description must be a string.')),
             'code' => $this->createCodeConstraints(),
             'type' => $this->createTypeConstraints(),
             'categoryId' => $this->createCategoryIdConstraints(),
