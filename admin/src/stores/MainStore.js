@@ -15,7 +15,7 @@ export const useMainStore = defineStore('mainStore', {
     /**
      * @type Object
      */
-    accordionStates: null,
+    accordionStates: {},
 
     /**
      * @type {Message[]}
@@ -104,6 +104,10 @@ export const useMainStore = defineStore('mainStore', {
     },
 
     setAccordionState(type, id, isOpen) {
+      if (!this.accordionStates) {
+        this.accordionStates = {}
+      }
+
       if (!this.accordionStates[type]) {
         this.accordionStates[type] = {}
       }
