@@ -1,0 +1,91 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  php-tests:
+    name: PHP Tests
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: portal_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, json
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      - name: Setup test environment
+        run: |
+          cp .env.test .env
+          echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/portal_test" >> .env
+
+      - name: Run database migrations
+        run: |
+          php bin/console doctrine:database:create --env=test
+          php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Run PHPUnit tests
+        run: composer phpunit
+
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: admin/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd admin
+          npm ci
+
+      - name: Run unit tests
+        run: |
+          cd admin
+          npm run test:unit
+
+      - name: Install Playwright browsers
+        run: |
+          cd admin
+          npx playwright install
+
+      - name: Run e2e tests
+        run: |
+          cd admin
+          npm run build
+          npm run test:e2e
